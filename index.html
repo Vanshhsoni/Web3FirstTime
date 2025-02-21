@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting DApp</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.5.0/web3.min.js"></script>
+</head>
+<body>
+
+    <!-- Fullscreen Header -->
+    <section id="hero">
+        <h1>Voting DApp with Rewards</h1>
+        <div class="scroll-down"></div> <!-- Scroll Indicator -->
+    </section>
+
+    <!-- Connect Wallet Section -->
+    <section id="connect-wallet">
+        <h2>Connect Your Wallet</h2>
+        <button onclick="connectWallet()" id="connectButton">Connect Wallet</button>
+        <p id="wallet-address">Not Connected</p>
+        
+    </section>
+
+    <!-- Main Content Section -->
+    <section id="main-content">
+        <h2>Cast Your Vote</h2>
+        <input type="text" id="candidateInput" placeholder="Enter Candidate Name">
+        <button onclick="vote()" id="voteButton" >Vote</button>
+
+        <h2>Check Votes</h2>
+        <input type="text" id="checkCandidate" placeholder="Candidate Name">
+        <button  onclick="getVotes()" id="checkVotesButton">Check Votes</button>
+        <p id="voteResult">0</p>
+
+        <h2>Your Token Balance</h2>
+        <button  onclick="getTokenBalance()" id="checkBalanceButton">Check Balance</button>
+        <p id="balanceResult"></p>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
