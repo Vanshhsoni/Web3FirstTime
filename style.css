@@ -1,0 +1,79 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FFC1CC;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* Fullscreen Hero Section */
+#hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff7f7f;
+    color: white;
+    font-size: 2.5em;
+    font-weight: bold;
+    position: relative;
+    transition: transform 1s ease-out;
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 20px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid white;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite;
+}
+
+
+
+/* Scroll Animation */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+/* Connect Wallet Section */
+#connect-wallet {
+    padding: 440px 20px;
+    background-color: #ff9f9f;
+    transition: all 0.8s ease-in-out;
+}
+
+/* Main Content Section */
+#main-content {
+    padding: 280px 20px;
+    background-color: #FFD1DC;
+}
+
+/* Buttons */
+button {
+    background-color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #ff5f5f;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Inputs */
+input {
+    padding: 10px;
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #ff7f7f;
+    border-radius: 5px;
+}
