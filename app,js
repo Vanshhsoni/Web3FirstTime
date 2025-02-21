@@ -1,0 +1,210 @@
+// Connect to Ethereum Wallet (MetaMask)
+async function connectWallet() {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            window.web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.getAccounts();
+            document.getElementById("wallet-address").innerText = `Connected: ${accounts[0]}`;
+            alert("Wallet Connected!");
+        } catch (error) {
+            console.error("Connection failed:", error);
+        }
+    } else {
+        alert("Please install MetaMask!");
+    }
+}
+
+// Smart Contract Details (Replace these with your actual values)
+const contractAddress = "0x2FE7C23c0480EEAC86c18A2Ef84eFc9122E81172";
+const contractABI = [
+	{
+		"inputs": [],
+		"name": "setOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "reward",
+				"type": "uint256"
+			}
+		],
+		"name": "setTokenReward",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "candidate",
+				"type": "string"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "voter",
+				"type": "address"
+			}
+		],
+		"name": "getTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "candidate",
+				"type": "string"
+			}
+		],
+		"name": "getVotes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "hasVoted",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "tokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "votes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
+async function vote() {
+    if (!window.web3) {
+        alert("Connect your wallet first!");
+        return;
+    }
+
+    const candidate = document.getElementById("candidateInput").value;
+    if (!candidate) {
+        alert("Please enter a candidate name.");
+        return;
+    }
+
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+    const accounts = await web3.eth.getAccounts();
+
+    try {
+        await contract.methods.vote(candidate).send({ from: accounts[0] });
+        alert(`You voted for ${candidate} and received tokens!`);
+    } catch (error) {
+        console.error("Voting failed:", error);
+        alert("Voting failed. Maybe you already voted?");
+    }
+}
+
+async function getVotes() {
+    const candidate = document.getElementById("checkCandidate").value;
+    if (!candidate) {
+        alert("Please enter a candidate name.");
+        return;
+    }
+
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    try {
+        const votes = await contract.methods.getVotes(candidate).call();
+        document.getElementById("voteResult").innerText = votes;
+    } catch (error) {
+        console.error("Error getting votes:", error);
+    }
+}
+
+async function getTokenBalance() {
+    if (!window.web3) {
+        alert("Connect your wallet first!");
+        return;
+    }
+
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+    const accounts = await web3.eth.getAccounts();
+
+    try {
+        const balance = await contract.methods.getTokenBalance(accounts[0]).call();
+        document.getElementById("balanceResult").innerText = balance;
+    } catch (error) {
+        console.error("Error getting token balance:", error);
+    }
+}
